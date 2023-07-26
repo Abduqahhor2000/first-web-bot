@@ -53,23 +53,22 @@ function App() {
   };
 
   const onSendData = useCallback(() => {
-      telegram.sendData(JSON.stringify(cartItems))
-    // const queryID = telegram.initDataUnsafe?.query_id;
+    const queryID = telegram.initDataUnsafe?.query_id;
 
-    // if (queryID) {
-    //   fetch("https://telegramwebapibot-b671371abfbb.herokuapp.com/web-data", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       products: cartItems,
-    //       queryID: queryID,
-    //     }),
-    //   });
-    // } else {
-    //   telegram.sendData(JSON.stringify(cartItems));
-    // }
+    if (queryID) {
+      fetch("https://first-backend-bot.vercel.app/web-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          products: cartItems,
+          queryID: queryID,
+        }),
+      });
+    } else {
+      telegram.sendData(JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   useEffect(() => {
